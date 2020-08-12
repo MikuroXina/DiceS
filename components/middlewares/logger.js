@@ -1,6 +1,7 @@
-export default (store) => (next) => (action) => {
-  console.log('Action', action);
-  console.log('Before', store.getState());
-  next(action);
-  console.log('After', store.getState());
+export const logger = (store) => (next) => (action) => {
+  console.log("Action", action);
+  console.log("Before", store.getState());
+  const ret = next(action);
+  console.log("After", store.getState());
+  return ret;
 };

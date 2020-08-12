@@ -1,8 +1,9 @@
-import actions from '../actions';
+import actions from "../actions";
 
-export default {
-  [actions.throwDice]: (state, val) => ({
-    histories: [...state.histories, val]
-  }),
-  init: () => ({histories: []})
-};
+export default function throwDice(state = { histories: [] }, val) {
+  if (val.type !== actions.throwDice) return state;
+
+  return {
+    histories: [...state.histories, val],
+  };
+}

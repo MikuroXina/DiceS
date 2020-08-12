@@ -5,6 +5,8 @@ dependencies:
   react-dom: 16.13.1_react@16.13.1
   react-redux: 7.2.1_49f644e2f7de4182503f8b93abece808
   redux: 4.0.5
+devDependencies:
+  prettier: 2.0.5
 lockfileVersion: 5.1
 packages:
   /@ampproject/toolbox-core/2.6.0:
@@ -3843,6 +3845,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
+  /prettier/2.0.5:
+    dev: true
+    engines:
+      node: '>=10.13.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
   /process-nextick-args/2.0.1:
     dev: false
     resolution:
@@ -4986,6 +4995,7 @@ packages:
 specifiers:
   next: ^9.5.2
   next-redux-wrapper: ^6.0.2
+  prettier: ^2.0.5
   react: ^16.13.1
   react-dom: ^16.13.1
   react-redux: ^7.2.1
