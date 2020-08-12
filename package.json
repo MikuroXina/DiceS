@@ -1,6 +1,7 @@
 {
-  "name": "create-next-example-app",
+  "name": "dice-s",
   "license": "Apache-2.0",
+  "private": true,
   "scripts": {
     "dev": "next",
     "build": "next build",
