@@ -1,10 +1,10 @@
-/*import type { NextPage } from "next";
+import type { NextPage } from "next";
 import { FC, ChangeEvent, useReducer } from "react";
 
-import type { Action } from "../components/actions";
-import { rollActionCreator as roller } from "../components/creators/roller";
-import { diceFrom } from "../components/reducers/dice";
-import { reducer } from "../components/reducer";
+import type { Action } from "comps/actions";
+import { rollActionCreator as roller } from "comps/creators/roller";
+import { diceFrom } from "comps/reducers/dice";
+import { reducer } from "comps/reducer";
 
 const RolledHistorty: FC<{ history: number[][] }> = ({ history }) => (
   <>
@@ -57,12 +57,10 @@ const Index: NextPage = () => {
   const kind = `${dice.num}D${dice.faces}`;
   return (
     <div>
-      <DiceInput dispatch={() => {}} kind={kind} />
+      <DiceInput dispatch={dispatch} kind={kind} />
       <RolledHistorty history={history.slice()} />
     </div>
   );
 };
 
 export default Index;
-*/
-export default () => <h1>Hello, World!</h1>;
