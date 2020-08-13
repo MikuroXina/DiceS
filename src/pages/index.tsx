@@ -3,7 +3,7 @@ import { FC, ChangeEvent, useReducer } from "react";
 
 import type { Action } from "comps/actions";
 import { rollActionCreator as roller } from "comps/creators/roller";
-import { diceFrom } from "comps/reducers/dice";
+import { diceFrom, Dice } from "comps/reducers/dice";
 import { reducer } from "comps/reducer";
 
 const RolledHistorty: FC<{ history: number[][] }> = ({ history }) => (
@@ -24,21 +24,25 @@ const RolledHistorty: FC<{ history: number[][] }> = ({ history }) => (
   </>
 );
 
-const DiceInput: FC<{ dispatch: (action: Action) => void; kind: string }> = ({
+const DiceInput: FC<{ dispatch: (action: Action) => void; dice: Dice }> = ({
   dispatch,
-  kind,
-}) => (
-  <>
-    <label>nDn (nは正の整数) で種類を入力　Dは必ず大文字で</label>
-    <input
-      type="text"
-      onChange={diceChangeHandler(dispatch)}
-      defaultValue={kind}
-    />
-    <button onClick={() => roller(dispatch)(kind)}>Roll</button>
-    <h2>{kind}</h2>
-  </>
-);
+  dice,
+}) => {
+  const kind = `${dice.num}D${dice.faces}`;
+
+  return (
+    <>
+      <label>nDn (nは正の整数) で種類を入力　Dは必ず大文字で</label>
+      <input
+        type="text"
+        onChange={diceChangeHandler(dispatch)}
+        defaultValue={kind}
+      />
+      <button onClick={() => roller(dispatch)(kind)}>Roll</button>
+      <h2>{kind}</h2>
+    </>
+  );
+};
 
 const diceChangeHandler = (dispatch: (action: Action) => void) => (
   e: ChangeEvent<HTMLInputElement>
@@ -54,10 +58,9 @@ const Index: NextPage = () => {
     history: [],
   });
   const { dice, history } = state;
-  const kind = `${dice.num}D${dice.faces}`;
   return (
     <div>
-      <DiceInput dispatch={dispatch} kind={kind} />
+      <DiceInput dispatch={dispatch} dice={dice} />
       <RolledHistorty history={history.slice()} />
     </div>
   );
