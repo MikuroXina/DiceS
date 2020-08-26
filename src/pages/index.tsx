@@ -27,8 +27,8 @@ const RolledHistorty: FC<{ history: readonly number[][] }> = ({ history }) => (
 );
 
 const PositiveNumberInput: FC<{
-  defaultValue: number;
-  onChange: (newValue: number) => void;
+  readonly defaultValue: number;
+  readonly onChange: (newValue: number) => void;
 }> = ({ defaultValue, onChange }) => (
   <input
     type="number"
@@ -43,9 +43,9 @@ const PositiveNumberInput: FC<{
 );
 
 const DiceInput: FC<{
-  changeDice: (dice: Dice) => void;
-  rollDice: () => void;
-  dice: Readonly<Dice>;
+  readonly changeDice: (dice: Dice) => void;
+  readonly rollDice: () => void;
+  readonly dice: Dice;
 }> = ({ changeDice, rollDice, dice: { quantity, faces } }) => {
   return (
     <>

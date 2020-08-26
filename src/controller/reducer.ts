@@ -2,12 +2,12 @@ import { Dice, roll, NormalizedRng } from "model/dice";
 import type { Action } from "./action";
 
 export interface State {
-  dice: Readonly<Dice>;
-  history: readonly number[][];
+  readonly dice: Readonly<Dice>;
+  readonly history: readonly number[][];
 }
 
 export const reducer = (rng: NormalizedRng) =>
-  (state: Readonly<State>, action: Readonly<Action>): State => {
+  (state: State, action: Action): State => {
     switch (action.type) {
       case "CHANGE_DICE":
         return {

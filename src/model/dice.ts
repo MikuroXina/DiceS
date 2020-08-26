@@ -1,6 +1,6 @@
 export interface Dice {
-  quantity: number;
-  faces: number;
+  readonly quantity: number;
+  readonly faces: number;
 }
 
 export interface NormalizedRng {
