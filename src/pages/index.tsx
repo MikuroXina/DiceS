@@ -1,21 +1,23 @@
+import { FC, useReducer } from "react";
 import type { NextPage } from "next";
-import { FC, ChangeEvent, useReducer } from "react";
 
-import type { Action } from "comps/actions";
-import { rollActionCreator as roller } from "comps/creators/roller";
-import { diceFrom, Dice } from "comps/reducers/dice";
-import { reducer } from "comps/reducer";
+import type { Dice } from "model/dice";
+import { reducer } from "controller/reducer";
 
-const RolledHistorty: FC<{ history: number[][] }> = ({ history }) => (
+const RolledHistorty: FC<{ history: readonly number[][] }> = ({ history }) => (
   <>
-    <div className="history">
-      {history.reverse().map((results, i) => (
-        <div key={i}>{results.join(" , ")}</div>
-      ))}
+    <div>
+      {history
+        .slice()
+        .reverse()
+        .map((results, i) => (
+          <p key={i}>{results.join(" , ")}</p>
+        ))}
     </div>
     <style jsx>{`
-      .history {
+      div {
         position: fixed;
+        width: 80%;
         height: 75%;
         overflow: auto;
         bottom: 10px;
@@ -24,45 +26,59 @@ const RolledHistorty: FC<{ history: number[][] }> = ({ history }) => (
   </>
 );
 
-const DiceInput: FC<{ dispatch: (action: Action) => void; dice: Dice }> = ({
-  dispatch,
-  dice,
-}) => {
-  const kind = `${dice.num}D${dice.faces}`;
+const PositiveNumberInput: FC<{
+  defaultValue: number;
+  onChange: (newValue: number) => void;
+}> = ({ defaultValue, onChange }) => (
+  <input
+    type="number"
+    onChange={(e) => {
+      const num = parseInt(e.target.value, 10);
+      if (!(0 < num)) return;
+      onChange(num);
+    }}
+    min={1}
+    defaultValue={defaultValue}
+  />
+);
 
+const DiceInput: FC<{
+  changeDice: (dice: Dice) => void;
+  rollDice: () => void;
+  dice: Readonly<Dice>;
+}> = ({ changeDice, rollDice, dice: { quantity, faces } }) => {
   return (
     <>
-      <label>nDn (nは正の整数) で種類を入力　Dは必ず大文字で</label>
-      <input
-        type="text"
-        onChange={diceChangeHandler(dispatch)}
-        defaultValue={kind}
+      <label>nDm でダイスの種類を入力</label>
+      <PositiveNumberInput
+        onChange={(quantity) => changeDice({ quantity, faces })}
+        defaultValue={quantity}
       />
-      <button onClick={() => roller(dispatch)(kind)}>Roll</button>
-      <h2>{kind}</h2>
+      D
+      <PositiveNumberInput
+        onChange={(faces) => changeDice({ quantity, faces })}
+        defaultValue={faces}
+      />
+      <button onClick={rollDice}>Roll</button>
     </>
   );
 };
 
-const diceChangeHandler = (dispatch: (action: Action) => void) => (
-  e: ChangeEvent<HTMLInputElement>
-) => {
-  const dice = diceFrom(e.target.value);
-  if (!dice) return;
-  dispatch({ type: "DICE_CHANGE", val: dice });
-};
-
 const Index: NextPage = () => {
-  const [state, dispatch] = useReducer(reducer, {
-    dice: { num: 2, faces: 6 },
+  const [state, dispatch] = useReducer(reducer(Math.random), {
+    dice: { quantity: 2, faces: 6 } as Dice,
     history: [],
   });
   const { dice, history } = state;
   return (
-    <div>
-      <DiceInput dispatch={dispatch} dice={dice} />
-      <RolledHistorty history={history.slice()} />
-    </div>
+    <>
+      <DiceInput
+        changeDice={(dice) => dispatch({ type: "CHANGE_DICE", dice })}
+        rollDice={() => dispatch({ type: "ROLL_DICE" })}
+        dice={dice}
+      />
+      <RolledHistorty history={history} />
+    </>
   );
 };
 
